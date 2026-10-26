@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="VaultRoute secure company knowledge portal">
+    <title>VaultRoute · Secure company knowledge</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main id="login-view" class="login-layout">
+      <section class="brand-panel" aria-label="About VaultRoute">
+        <div class="brand-mark" aria-hidden="true"><span>V</span></div>
+        <p class="eyebrow">Permission-aware intelligence</p>
+        <h1>Ask your company.<br><em>Keep its boundaries.</em></h1>
+        <p class="brand-copy">
+          Answers grounded in documents you are allowed to see—checked again on every search and
+          every cache hit.
+        </p>
+        <div class="trust-row">
+          <span><i class="status-dot"></i> Role verified</span>
+          <span><i class="status-dot"></i> Sources cited</span>
+          <span><i class="status-dot"></i> Activity audited</span>
+        </div>
+      </section>
+
+      <section class="login-card" aria-labelledby="login-heading">
+        <div>
+          <p class="eyebrow">Employee access</p>
+          <h2 id="login-heading">Welcome back</h2>
+          <p class="muted">Use your company credentials to enter the knowledge workspace.</p>
+        </div>
+        <form id="login-form" class="stack-form">
+          <label>Company <input id="company" name="company" value="acme" autocomplete="organization" required></label>
+          <label>Email <input id="email" name="email" type="email" placeholder="priya@acme.example.com" autocomplete="username" required></label>
+          <label>Password <input id="password" name="password" type="password" autocomplete="current-password" required minlength="8"></label>
+          <button class="primary-button" type="submit"><span>Enter workspace</span><span aria-hidden="true">→</span></button>
+          <p id="login-error" class="form-message error" role="alert"></p>
+        </form>
+        <p class="login-note">Development users use the seeded password from your private <code>.env</code> file.</p>
+      </section>
+    </main>
+
+    <div id="app-view" class="app-shell hidden">
+      <aside class="sidebar">
+        <div class="side-brand">
+          <div class="brand-mark small" aria-hidden="true"><span>V</span></div>
+          <div><strong>VaultRoute</strong><small>Knowledge control</small></div>
+        </div>
+        <nav aria-label="Workspace">
+          <button class="nav-item active" data-view="ask"><span aria-hidden="true">⌁</span> Ask</button>
+          <button class="nav-item" data-view="documents"><span aria-hidden="true">▤</span> Documents</button>
+          <button id="metrics-nav" class="nav-item" data-view="metrics"><span aria-hidden="true">⌁</span> Insights</button>
+        </nav>
+        <div class="sidebar-foot">
+          <div class="security-note"><span aria-hidden="true">◆</span><p><strong>Protected path</strong><small>Permissions are rechecked server-side.</small></p></div>
+          <button id="logout-button" class="quiet-button">Sign out</button>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div><p class="eyebrow" id="view-kicker">Knowledge workspace</p><h2 id="view-title">Ask VaultRoute</h2></div>
+          <div class="user-chip"><div class="avatar" id="user-initials">U</div><div><strong id="user-name">User</strong><small id="user-scope">Department</small></div></div>
+        </header>
+
+        <section id="ask-view" class="view-panel active-view">
+          <div class="hero-card">
+            <p class="eyebrow">Authorized knowledge only</p>
+            <h3>What do you need to know?</h3>
+            <p>VaultRoute searches only the sources in your current access scope.</p>
+            <form id="ask-form" class="ask-box">
+              <textarea id="question" maxlength="2000" rows="4" placeholder="Ask about policies, processes, standards, or strategy…" required></textarea>
+              <div class="ask-actions"><span id="question-count">0 / 2000</span><button class="primary-button compact" type="submit">Ask securely <span aria-hidden="true">→</span></button></div>
+            </form>
+            <div class="suggestions" aria-label="Example questions">
+              <button data-question="What information must API logs exclude?">API logging rules</button>
+              <button data-question="What happens when a release crosses its error threshold?">Release safety</button>
+              <button data-question="How are conflicting documents handled?">Conflict handling</button>
+            </div>
+          </div>
+
+          <div id="answer-loading" class="loading-card hidden" aria-live="polite"><div class="pulse-ring"></div><div><strong>Checking permissions and sources</strong><p>Searching your authorized knowledge space…</p></div></div>
+          <article id="answer-card" class="answer-card hidden" aria-live="polite">
+            <div class="answer-head"><div><p class="eyebrow">Grounded response</p><h3>Answer</h3></div><div id="answer-badges" class="badge-row"></div></div>
+            <div id="answer-text" class="answer-text"></div>
+            <div id="source-list" class="source-grid"></div>
+            <div id="feedback-panel" class="feedback-row hidden"><span>Was this useful?</span><div id="rating-buttons" class="rating-buttons" aria-label="Rate this answer"></div><span id="feedback-message" class="muted"></span></div>
+          </article>
+          <div id="ask-error" class="notice error hidden" role="alert"></div>
+        </section>
+
+        <section id="documents-view" class="view-panel">
+          <div class="section-heading"><div><p class="eyebrow">Your access scope</p><h3>Available documents</h3><p class="muted">Only metadata for documents you can currently access appears here.</p></div><button id="refresh-documents" class="secondary-button">Refresh</button></div>
+          <div id="document-stats" class="mini-stats"></div>
+          <div id="document-list" class="document-list"></div>
+          <div id="document-empty" class="empty-state hidden">No accessible documents were found.</div>
+
+          <section id="upload-panel" class="upload-panel hidden">
+            <div><p class="eyebrow">Document manager</p><h3>Add a source</h3><p class="muted">Files are chunked, embedded locally, and indexed with the access rule below.</p></div>
+            <form id="upload-form" class="upload-form">
+              <label>Document title <input id="upload-title" maxlength="240" placeholder="Optional; filename used by default"></label>
+              <label>Department <select id="upload-department" required></select></label>
+              <label>Classification <select id="upload-classification"><option value="internal">Internal</option><option value="confidential">Confidential</option><option value="restricted">Restricted</option></select></label>
+              <label id="company-wide-label" class="check-label hidden"><input id="upload-company-wide" type="checkbox"> Available company-wide</label>
+              <label class="file-drop">File <input id="upload-file" type="file" accept=".txt,.md,.html,.pdf,.docx" required><span>TXT, Markdown, HTML, PDF, or DOCX · maximum 10 MB</span></label>
+              <button class="primary-button compact" type="submit">Index document</button>
+              <p id="upload-message" class="form-message" role="status"></p>
+            </form>
+          </section>
+        </section>
+
+        <section id="metrics-view" class="view-panel">
+          <div class="section-heading"><div><p class="eyebrow">Company observability</p><h3>Trust and performance</h3><p class="muted">30-day company view. Questions and document text are never stored here.</p></div><button id="refresh-metrics" class="secondary-button">Refresh</button></div>
+          <div id="metric-cards" class="metric-grid"></div>
+          <section class="table-card"><div class="table-heading"><h4>Recent query audit</h4><span>Privacy-safe fingerprints</span></div><div class="table-scroll"><table><thead><tr><th>Time</th><th>Outcome</th><th>Route</th><th>Cache</th><th>Latency</th><th>Quality</th></tr></thead><tbody id="audit-body"></tbody></table></div></section>
+          <div id="metrics-error" class="notice error hidden"></div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast hidden" role="status"></div>
+  </body>
+</html>

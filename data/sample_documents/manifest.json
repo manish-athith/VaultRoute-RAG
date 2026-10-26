@@ -1,0 +1,12 @@
+[
+  {"path":"founding/board-strategy-2027.md","title":"Board Strategy 2027","classification":"restricted","department_codes":["founding"]},
+  {"path":"founding/investor-brief.md","title":"Investor Brief","classification":"confidential","department_codes":["founding"]},
+  {"path":"engineering/api-standards.md","title":"Engineering API Standards","classification":"internal","department_codes":["engineering"]},
+  {"path":"engineering/release-process.md","title":"Engineering Release Process","classification":"internal","department_codes":["engineering"]},
+  {"path":"hr/leave-policy.md","title":"Employee Leave Policy","classification":"confidential","department_codes":["hr"]},
+  {"path":"hr/hiring-guide.md","title":"Hiring and Interview Guide","classification":"confidential","department_codes":["hr"]},
+  {"path":"design/design-system.md","title":"Product Design System","classification":"internal","department_codes":["design"]},
+  {"path":"design/research-playbook.md","title":"User Research Playbook","classification":"internal","department_codes":["design"]},
+  {"path":"business/sales-process.md","title":"Enterprise Sales Process","classification":"internal","department_codes":["business"]},
+  {"path":"business/pricing-guidelines.md","title":"Pricing and Discount Guidelines","classification":"confidential","department_codes":["business"]}
+]

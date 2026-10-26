@@ -1,0 +1,101 @@
+services:
+  api:
+    build:
+      context: .
+    environment:
+      APP_NAME: VaultRoute RAG
+      APP_VERSION: 0.1.0
+      ENVIRONMENT: development
+      LOG_LEVEL: INFO
+      DATABASE_URL: postgresql+asyncpg://vaultroute:vaultroute@postgres:5432/vaultroute
+      QDRANT_URL: http://qdrant:6333
+      DEPENDENCY_TIMEOUT_SECONDS: 3.0
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-development-only-change-me-before-production}
+      JWT_ALGORITHM: HS256
+      JWT_ISSUER: vaultroute-rag
+      JWT_AUDIENCE: vaultroute-rag-api
+      JWT_ACCESS_TOKEN_MINUTES: 30
+      SEED_USER_PASSWORD: ${SEED_USER_PASSWORD:-ChangeMe123!}
+      DOCUMENT_CHUNK_SIZE_WORDS: 220
+      DOCUMENT_CHUNK_OVERLAP_WORDS: 40
+      MAX_UPLOAD_BYTES: 10485760
+      EMBEDDING_MODEL_NAME: BAAI/bge-small-en-v1.5
+      EMBEDDING_DIMENSION: 384
+      EMBEDDING_CACHE_DIR: /models
+      QDRANT_DOCUMENT_COLLECTION: document_chunks
+      QDRANT_CACHE_COLLECTION: semantic_answer_cache
+      RETRIEVAL_CANDIDATE_LIMIT: 20
+      RETRIEVAL_TOP_K: 5
+      RETRIEVAL_MIN_SCORE: 0.30
+      ANSWER_MIN_SCORE: 0.50
+      CACHE_SIMILARITY_THRESHOLD: 0.93
+      CACHE_CANDIDATE_LIMIT: 5
+      CACHE_TTL_SECONDS: 86400
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_BASE_URL: https://api.groq.com/openai/v1
+      GROQ_MODEL: ${GROQ_MODEL:-openai/gpt-oss-20b}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_BASE_URL: https://api.openai.com/v1
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-6-astra}
+      MODEL_REQUEST_TIMEOUT_SECONDS: 60
+      MODEL_MAX_OUTPUT_TOKENS: 700
+      GROQ_INPUT_COST_PER_MILLION: 0.075
+      GROQ_OUTPUT_COST_PER_MILLION: 0.30
+      OPENAI_INPUT_COST_PER_MILLION: 10.0
+      OPENAI_OUTPUT_COST_PER_MILLION: 50.0
+      ALLOWED_HOSTS: localhost,127.0.0.1,api
+      RATE_LIMIT_REQUESTS_PER_MINUTE: 120
+      RATE_LIMIT_LOGIN_PER_MINUTE: 10
+      RATE_LIMIT_QUERY_PER_MINUTE: 30
+      RATE_LIMIT_UPLOAD_PER_MINUTE: 10
+      METRICS_BEARER_TOKEN: ${METRICS_BEARER_TOKEN:-}
+      ENABLE_API_DOCS: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/live')"
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - embedding_models:/models
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: vaultroute
+      POSTGRES_USER: vaultroute
+      POSTGRES_PASSWORD: vaultroute
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vaultroute -d vaultroute"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  qdrant:
+    image: qdrant/qdrant:v1.20.0
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+volumes:
+  postgres_data:
+  qdrant_data:
+  embedding_models:
+

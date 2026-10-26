@@ -1,0 +1,206 @@
+{
+  "generated_at": "2026-10-23T15:05:59.573132+00:00",
+  "base_url": "http://localhost:8000",
+  "dataset": "C:\\Users\\MANISH CHOUDHARY\\Desktop\\VaultRoute-RAG\\data\\evaluation\\rag_cases.json",
+  "summary": {
+    "cases": 11,
+    "relevance_cases": 10,
+    "top1_accuracy": 1.0,
+    "access_safety_rate": 1.0,
+    "average_response_ms": 95.22,
+    "minimum_top1": 0.8,
+    "minimum_access_safety": 1.0,
+    "passed": true
+  },
+  "cases": [
+    {
+      "id": "founding-strategy",
+      "email": "director@acme.example.com",
+      "expected_top_title": "Board Strategy 2027",
+      "actual_top_title": "Board Strategy 2027",
+      "top1_correct": true,
+      "access_safe": true,
+      "allowed_departments": [
+        "founding"
+      ],
+      "returned_departments": [
+        "founding"
+      ],
+      "max_score": 0.7062,
+      "evidence_count": 2,
+      "response_ms": 642.83
+    },
+    {
+      "id": "founding-investor",
+      "email": "cto@acme.example.com",
+      "expected_top_title": "Investor Brief",
+      "actual_top_title": "Investor Brief",
+      "top1_correct": true,
+      "access_safe": true,
+      "allowed_departments": [
+        "engineering",
+        "founding"
+      ],
+      "returned_departments": [
+        "engineering",
+        "founding"
+      ],
+      "max_score": 0.8115,
+      "evidence_count": 4,
+      "response_ms": 36.13
+    },
+    {
+      "id": "engineering-api",
+      "email": "priya@acme.example.com",
+      "expected_top_title": "Engineering API Standards",
+      "actual_top_title": "Engineering API Standards",
+      "top1_correct": true,
+      "access_safe": true,
+      "allowed_departments": [
+        "engineering"
+      ],
+      "returned_departments": [
+        "engineering"
+      ],
+      "max_score": 0.7465,
+      "evidence_count": 2,
+      "response_ms": 31.54
+    },
+    {
+      "id": "engineering-release",
+      "email": "qa@acme.example.com",
+      "expected_top_title": "Engineering Release Process",
+      "actual_top_title": "Engineering Release Process",
+      "top1_correct": true,
+      "access_safe": true,
+      "allowed_departments": [
+        "engineering"
+      ],
+      "returned_departments": [
+        "engineering"
+      ],
+      "max_score": 0.6855,
+      "evidence_count": 2,
+      "response_ms": 52.14
+    },
+    {
+      "id": "hr-leave",
+      "email": "hr.manager@acme.example.com",
+      "expected_top_title": "Employee Leave Policy",
+      "actual_top_title": "Employee Leave Policy",
+      "top1_correct": true,
+      "access_safe": true,
+      "allowed_departments": [
+        "hr"
+      ],
+      "returned_departments": [
+        "hr"
+      ],
+      "max_score": 0.7917,
+      "evidence_count": 2,
+      "response_ms": 34.11
+    },
+    {
+      "id": "hr-hiring",
+      "email": "recruiter@acme.example.com",
+      "expected_top_title": "Hiring and Interview Guide",
+      "actual_top_title": "Hiring and Interview Guide",
+      "top1_correct": true,
+      "access_safe": true,
+      "allowed_departments": [
+        "hr"
+      ],
+      "returned_departments": [
+        "hr"
+      ],
+      "max_score": 0.7457,
+      "evidence_count": 2,
+      "response_ms": 35.23
+    },
+    {
+      "id": "design-system",
+      "email": "senior.designer@acme.example.com",
+      "expected_top_title": "Product Design System",
+      "actual_top_title": "Product Design System",
+      "top1_correct": true,
+      "access_safe": true,
+      "allowed_departments": [
+        "design"
+      ],
+      "returned_departments": [
+        "design"
+      ],
+      "max_score": 0.7276,
+      "evidence_count": 2,
+      "response_ms": 36.45
+    },
+    {
+      "id": "design-research",
+      "email": "uiux@acme.example.com",
+      "expected_top_title": "User Research Playbook",
+      "actual_top_title": "User Research Playbook",
+      "top1_correct": true,
+      "access_safe": true,
+      "allowed_departments": [
+        "design"
+      ],
+      "returned_departments": [
+        "design"
+      ],
+      "max_score": 0.7616,
+      "evidence_count": 2,
+      "response_ms": 44.02
+    },
+    {
+      "id": "business-sales",
+      "email": "sales@acme.example.com",
+      "expected_top_title": "Enterprise Sales Process",
+      "actual_top_title": "Enterprise Sales Process",
+      "top1_correct": true,
+      "access_safe": true,
+      "allowed_departments": [
+        "business"
+      ],
+      "returned_departments": [
+        "business"
+      ],
+      "max_score": 0.7091,
+      "evidence_count": 2,
+      "response_ms": 34.32
+    },
+    {
+      "id": "business-pricing",
+      "email": "business.manager@acme.example.com",
+      "expected_top_title": "Pricing and Discount Guidelines",
+      "actual_top_title": "Pricing and Discount Guidelines",
+      "top1_correct": true,
+      "access_safe": true,
+      "allowed_departments": [
+        "business"
+      ],
+      "returned_departments": [
+        "business"
+      ],
+      "max_score": 0.7608,
+      "evidence_count": 2,
+      "response_ms": 30.0
+    },
+    {
+      "id": "cross-department-isolation",
+      "email": "priya@acme.example.com",
+      "expected_top_title": null,
+      "actual_top_title": "Engineering Release Process",
+      "top1_correct": null,
+      "access_safe": true,
+      "allowed_departments": [
+        "engineering"
+      ],
+      "returned_departments": [
+        "engineering"
+      ],
+      "max_score": 0.3941,
+      "evidence_count": 2,
+      "response_ms": 70.7
+    }
+  ]
+}

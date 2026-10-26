@@ -1,0 +1,86 @@
+services:
+  api:
+    build:
+      context: .
+    env_file:
+      - path: .env.production
+        required: false
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql+asyncpg://vaultroute:${POSTGRES_PASSWORD:?required}@postgres:5432/vaultroute
+      QDRANT_URL: http://qdrant:6333
+      EMBEDDING_CACHE_DIR: /models
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?required}
+      METRICS_BEARER_TOKEN: ${METRICS_BEARER_TOKEN:?required}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:?required}
+      ENABLE_API_DOCS: "false"
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-openai/gpt-oss-20b}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-6-astra}
+      RATE_LIMIT_REQUESTS_PER_MINUTE: ${RATE_LIMIT_REQUESTS_PER_MINUTE:-120}
+      RATE_LIMIT_LOGIN_PER_MINUTE: ${RATE_LIMIT_LOGIN_PER_MINUTE:-10}
+      RATE_LIMIT_QUERY_PER_MINUTE: ${RATE_LIMIT_QUERY_PER_MINUTE:-30}
+      RATE_LIMIT_UPLOAD_PER_MINUTE: ${RATE_LIMIT_UPLOAD_PER_MINUTE:-10}
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,noexec,nosuid
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    volumes:
+      - embedding_models:/models
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready')"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - edge
+      - data
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: vaultroute
+      POSTGRES_USER: vaultroute
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vaultroute -d vaultroute"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - data
+
+  qdrant:
+    image: qdrant/qdrant:v1.20.0
+    restart: unless-stopped
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - data
+
+networks:
+  edge:
+  data:
+    internal: true
+
+volumes:
+  postgres_data:
+  qdrant_data:
+  embedding_models:

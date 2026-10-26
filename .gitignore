@@ -1,0 +1,23 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+.idea/
+.vscode/
+qdrant_storage/
+postgres_data/
+backups/
+.env.production
+
+# Keep internal project notes local. README.md is the only root Markdown file
+# intentionally published with the source repository.
+/*.md
+!/README.md
+

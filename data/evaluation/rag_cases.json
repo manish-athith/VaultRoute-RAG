@@ -1,0 +1,79 @@
+[
+  {
+    "id": "founding-strategy",
+    "email": "director@acme.example.com",
+    "question": "What minimum cash runway must the base forecast preserve before hiring is accelerated?",
+    "expected_top_title": "Board Strategy 2027",
+    "allowed_departments": ["founding"]
+  },
+  {
+    "id": "founding-investor",
+    "email": "cto@acme.example.com",
+    "question": "Who confirms technical delivery claims in the investor update?",
+    "expected_top_title": "Investor Brief",
+    "allowed_departments": ["founding", "engineering"]
+  },
+  {
+    "id": "engineering-api",
+    "email": "priya@acme.example.com",
+    "question": "What information must API logs exclude?",
+    "expected_top_title": "Engineering API Standards",
+    "allowed_departments": ["engineering"]
+  },
+  {
+    "id": "engineering-release",
+    "email": "qa@acme.example.com",
+    "question": "What should happen when release error rate or latency crosses its threshold?",
+    "expected_top_title": "Engineering Release Process",
+    "allowed_departments": ["engineering"]
+  },
+  {
+    "id": "hr-leave",
+    "email": "hr.manager@acme.example.com",
+    "question": "Where should an employee request planned leave?",
+    "expected_top_title": "Employee Leave Policy",
+    "allowed_departments": ["hr"]
+  },
+  {
+    "id": "hr-hiring",
+    "email": "recruiter@acme.example.com",
+    "question": "When may reference checks occur for a candidate?",
+    "expected_top_title": "Hiring and Interview Guide",
+    "allowed_departments": ["hr"]
+  },
+  {
+    "id": "design-system",
+    "email": "senior.designer@acme.example.com",
+    "question": "What states must a new interface component document?",
+    "expected_top_title": "Product Design System",
+    "allowed_departments": ["design"]
+  },
+  {
+    "id": "design-research",
+    "email": "uiux@acme.example.com",
+    "question": "How should participant names be handled in research reports?",
+    "expected_top_title": "User Research Playbook",
+    "allowed_departments": ["design"]
+  },
+  {
+    "id": "business-sales",
+    "email": "sales@acme.example.com",
+    "question": "What must happen before a security or product commitment enters a proposal?",
+    "expected_top_title": "Enterprise Sales Process",
+    "allowed_departments": ["business"]
+  },
+  {
+    "id": "business-pricing",
+    "email": "business.manager@acme.example.com",
+    "question": "What is the largest discount a Business Manager may approve?",
+    "expected_top_title": "Pricing and Discount Guidelines",
+    "allowed_departments": ["business"]
+  },
+  {
+    "id": "cross-department-isolation",
+    "email": "priya@acme.example.com",
+    "question": "What are the board's 2027 financing and cash runway plans?",
+    "expected_top_title": null,
+    "allowed_departments": ["engineering"]
+  }
+]
