@@ -107,6 +107,19 @@ flowchart LR
 | Groq | Small/fast answer route using `openai/gpt-oss-20b` by default |
 | OpenAI | Large reasoning route using `gpt-6-astra` by default |
 
+### Database usage: what, when, and where
+
+VaultRoute uses **PostgreSQL and Qdrant together**, but they have different jobs:
+
+| Database | What it stores | When it is used | Where it is accessed |
+|---|---|---|---|
+| PostgreSQL | Companies, users, Argon2 password hashes, roles, departments, token versions, document metadata, access rules, classifications, content hashes, document versions/status, query audit events, timing/token/cost metrics, and feedback | During login; on every protected request to rebuild current permissions; before and after document indexing; when retrieved or cached sources are re-authorized; after each query for audit/metrics; and when executive insights are opened | The `postgres` Docker service on the private Compose network. Application access goes through SQLAlchemy repositories under `identity/`, `documents/`, and `observability/` |
+| Qdrant | `document_chunks`: chunk text, embeddings, document/company/version metadata, and permission principals. `semantic_answer_cache`: question embeddings, answers/citations, company and exact access-scope key, source versions, and expiry metadata | When an uploaded document is embedded and indexed; when a question searches semantically similar authorized chunks; when the system checks for a semantic cache hit; and when a new generated answer is cached | The `qdrant` Docker service on the private Compose network. Document vectors are handled by `documents/vector_store.py` and cache vectors by `cache/vector_store.py` |
+
+PostgreSQL is the **source of truth for identity, authorization, versions, and audit data**. Qdrant is the **search engine for meaning-based retrieval and cache similarity**. Qdrant payload filters narrow the search, but the application always checks PostgreSQL again before using a document or returning a cached answer.
+
+Original uploaded files are processed in memory and are not kept in either database as a public raw-file store. PostgreSQL stores their metadata and content hash; Qdrant stores the extracted searchable chunks.
+
 ## User flow
 
 ```mermaid
@@ -426,3 +439,7 @@ python scripts/run_rag_evaluation.py
 - a larger human-reviewed evaluation set.
 
 This repository is a strong personal-project implementation and production-oriented reference, but deployment security still depends on the owner's infrastructure, secret management, policies, and operating procedures.
+
+---
+
+Built by **Manish Choudhary**
